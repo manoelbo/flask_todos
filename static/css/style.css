@@ -1,0 +1,27 @@
+#container{
+  width: 400px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.todosBox {
+	border: solid 1px #d3d3d4;
+	border-radius: 4px 4px 4px 4px;
+	min-height: 530px;
+}
+
+.todos-title {
+	color: black;
+	width: 400px;
+	text-align: center;
+	font-family: 'helvetica';
+	font-size: 26px;
+	margin-top: 50px;
+	padding-bottom: 50px;
+	border-bottom: dashed 1px #d3d3d4;
+}
+
+
+#porra {
+	color: red;
+}

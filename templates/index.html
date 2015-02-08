@@ -1,0 +1,142 @@
+<html>
+  <head>
+  	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Hello React</title>
+    <script src="http://fb.me/react-0.12.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+  	<div id="container">
+    	<div id="content"></div>
+	</div>
+
+<script src="js/bootstrap.min.js"></script>   
+<script type="text/jsx">
+
+var tasks = [
+  {task: "Do the Laundry"},
+  {task: "Learn Python"}
+];
+	
+	var TodosBox = React.createClass({
+    
+    getInitialState: function() {
+    return {tasks: []};
+    },
+
+    loadCommentsFromServer: function() {
+      $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({tasks: tasks});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+    handleTaskSubmit: function(task){
+      $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: task,
+      success: function(data) {
+        this.setState({tasks: tasks});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+		componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+
+    render: function() {
+			return (
+				<div className="todosBox">
+					<h1 className="todos-title">Todos</h1> 
+          <TodosForm onTaskSubmit= {this.handleTaskSubmit}/>
+          <TodosList tasks={this.state.tasks}/>
+				</div>
+			);
+		}		
+	});
+
+///////////////// FORM 
+
+  var TodosForm = React.createClass({
+    handleSubmit: function(e){
+      e.preventDefault();
+      var task = this.refs.task.getDOMNode().value.trim();
+      if (!task) {
+        return;
+      }
+      this.props.onTaskSubmit({task: task});
+      this.refs.task.getDOMNode().value = '';
+    },
+    render: function() {
+      return (
+      <form className="todosForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="What needs to be done?" ref="task"/>
+        <input type="submit" value="Post" />
+      </form>
+      );
+    }   
+  });
+
+////////////// LIST 
+
+  var TodosList = React.createClass({
+    render: function() {
+     var taskNodes = this.props.tasks.map(function (tasksdata){
+        return (
+          <TodosTask task={tasksdata.task}/>
+          );
+     });      
+      return (
+        <table className="todosTable">
+          <tr>
+            {taskNodes}
+          </tr>
+        </table>
+
+      );
+    }   
+  });
+
+////////////// TASK
+
+  var TodosTask = React.createClass({
+    render: function() {
+      return (
+          <div>
+            <input type="checkbox">{this.props.task}</input>
+          </div>
+
+      );
+    }   
+  });
+
+ //////////////// REACT RENDERZ 
+
+	React.render(
+  	<TodosBox url="http://localhost:5000/todos/api" pollInterval={2000}/>,
+  	document.getElementById('content')
+	);
+
+
+
+
+</script>
+
+</body>
+</html>
