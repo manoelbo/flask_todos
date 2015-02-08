@@ -31,8 +31,8 @@ def create_task():
     tasks = {
         'task': request.json.get('task', ""),
     }
-    tasks.append(task)
-    return jsonify({'task': task}), 201
+
+    return Response(json.dumps(tasks),  mimetype='application/json')
 
 
 
