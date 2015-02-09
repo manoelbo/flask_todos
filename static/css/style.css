@@ -1,5 +1,5 @@
 #container{
-  width: 400px;
+  width: 500px;
   height: 100%;
   margin: 0 auto;
 }
@@ -12,7 +12,7 @@
 
 .todos-title {
 	color: black;
-	width: 400px;
+	width: 500px;
 	text-align: center;
 	font-family: 'helvetica';
 	font-size: 26px;
@@ -22,6 +22,24 @@
 }
 
 
-#porra {
-	color: red;
+.input{
+	width: 300px;
+	height: 40px;
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+.addpost{
+	height: 40px;
+	width: 145px;
+	padding-top: 40px;
+}
+
+tbody tr:nth-child(odd) {
+   background-color: #ccc;
+}
+
+tr{
+	height: 500px;
+	width: 300px;
 }

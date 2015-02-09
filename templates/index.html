@@ -16,10 +16,7 @@
 <script src="js/bootstrap.min.js"></script>   
 <script type="text/jsx">
 
-var tasks = [
-  {task: "Do the Laundry"},
-  {task: "Learn Python"}
-];
+
 	
 	var TodosBox = React.createClass({
     
@@ -31,8 +28,9 @@ var tasks = [
       $.ajax({
       url: this.props.url,
       dataType: 'json',
-      success: function(data) {
-        this.setState({tasks: tasks});
+      data: JSON.stringify({}),
+      success: function(tasks) {
+        this.setState(tasks);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -40,14 +38,18 @@ var tasks = [
     });
   },
 
-    handleTaskSubmit: function(task){
+    handleTaskSubmit: function(tasks){
+
+
       $.ajax({
       url: this.props.url,
       dataType: 'json',
       type: 'POST',
-      data: task,
-      success: function(data) {
-        this.setState({tasks: tasks});
+      data: JSON.stringify(tasks),
+      contentType: "application/json",
+      accepts: "application/json",
+      success: function(task) {
+        this.setState({task: task});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -74,20 +76,20 @@ var tasks = [
 ///////////////// FORM 
 
   var TodosForm = React.createClass({
-    handleSubmit: function(e){
+    handleSubmit: function(e) {
       e.preventDefault();
-      var task = this.refs.task.getDOMNode().value.trim();
-      if (!task) {
-        return;
-      }
-      this.props.onTaskSubmit({task: task});
-      this.refs.task.getDOMNode().value = '';
-    },
+    var task = this.refs.task.getDOMNode().value.trim();
+    if (!task) {
+      return;
+    }
+    this.props.onTaskSubmit({task: task});
+    this.refs.task.getDOMNode().value = '';
+  },
     render: function() {
       return (
       <form className="todosForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="What needs to be done?" ref="task"/>
-        <input type="submit" value="Post" />
+        <input type="text" className="input" placeholder="What needs to be done?" name="task" ref="task" />
+        <input type="submit" className="addpost" value="Add Post" />
       </form>
       );
     }   
@@ -119,7 +121,7 @@ var tasks = [
     render: function() {
       return (
           <div>
-            <input type="checkbox">{this.props.task}</input>
+            <input type="checkbox" onChange="{this.handleDoneSubmit}">{this.props.task}</input>
           </div>
 
       );

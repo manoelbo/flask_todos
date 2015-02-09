@@ -1,9 +1,13 @@
-from flask import Flask, render_template, jsonify, url_for, json, Response, make_response, request
+from flask import Flask, render_template, jsonify, url_for, json, Response, make_response, request, abort
 import os
  
 app = Flask(__name__)    
 
-
+tasks = [
+  	{"task": u"Do the Laundry"},
+  	{"task": u"Learn Python"},
+    {"task": u"JorgeBen"}
+		]
 
 ######## INDEX ########
  
@@ -12,34 +16,30 @@ def home():
   return render_template('index.html')
 
 
+
 ####### GET ########
+
 
 @app.route('/todos/api', methods=['GET'])
 def get_tasks():
-	tasks = [
-  		{"task": u"Do the Laundry"},
-  		{"task": u"Learn Python"}
-	]
-	return Response(json.dumps(tasks),  mimetype='application/json')
-    
+    return jsonify({'tasks': tasks})
+
+@app.route('/todos/api<int:task_id>', methods=['GET'])
+def get_task(task_id):
+    task = [task for task in tasks if task['id'] == task_id]
+    if len(task) == 0:
+        abort(404)
+    return jsonify({'task': task[0]})
 
 
- ####### POST ########
-
-@app.route('/todo/api/v1.0/tasks', methods=['POST'])
+@app.route('/todos/api', methods=['POST'])
 def create_task():
-    tasks = {
-        'task': request.json.get('task', ""),
+    task = {
+        'task': request.json['task'],
     }
 
-    return Response(json.dumps(tasks),  mimetype='application/json')
-
-
-
-
-
-
-
+    tasks.append(task)
+    return jsonify({'task': task}), 201
 
 
 
