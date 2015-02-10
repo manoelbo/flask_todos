@@ -1,24 +1,24 @@
 <html>
   <head>
-  	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
     <title>Hello React</title>
     <script src="http://fb.me/react-0.12.2.js"></script>
     <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-  	<div id="container">
-    	<div id="content"></div>
-	</div>
+    <div id="container">
+      <div id="content"></div>
+  </div>
 
 <script src="js/bootstrap.min.js"></script>   
 <script type="text/jsx">
 
 
-	
-	var TodosBox = React.createClass({
+  
+  var TodosBox = React.createClass({
     
     getInitialState: function() {
     return {tasks: []};
@@ -57,21 +57,28 @@
     });
   },
 
-		componentDidMount: function() {
+    componentDidMount: function() {
     this.loadCommentsFromServer();
     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
 
     render: function() {
-			return (
-				<div className="todosBox">
-					<h1 className="todos-title">Todos</h1> 
-          <TodosForm onTaskSubmit= {this.handleTaskSubmit}/>
-          <TodosList tasks={this.state.tasks}/>
-				</div>
-			);
-		}		
-	});
+      return (
+        <div className="todosBox">
+          <h1 className="todos-title">Todos</h1>
+          <div className="taskBox">
+            <TodosForm onTaskSubmit= {this.handleTaskSubmit}/>
+            <TodosList tasks={this.state.tasks}/>
+          </div>
+          <div className="content-bottom">
+            <TodosCounter/>
+            <TodosMarkAll/>
+          </div>
+          
+        </div>
+      );
+    }   
+  });
 
 ///////////////// FORM 
 
@@ -88,8 +95,8 @@
     render: function() {
       return (
       <form className="todosForm" onSubmit={this.handleSubmit}>
-        <input type="text" className="input" placeholder="What needs to be done?" name="task" ref="task" />
-        <input type="submit" className="addpost" value="Add Post" />
+        <input type="text" className="input" placeholder="  What needs to be done?" name="task" ref="task" />
+        <input type="submit" className="addpost" value="Add Todo" />
       </form>
       );
     }   
@@ -101,14 +108,13 @@
     render: function() {
      var taskNodes = this.props.tasks.map(function (tasksdata){
         return (
-          <TodosTask task={tasksdata.task}/>
+          <TodosTask status={tasksdata.status} id={tasksdata.id} task={tasksdata.task}>
+          </TodosTask>
           );
-     });      
+     });    
       return (
         <table className="todosTable">
-          <tr>
-            {taskNodes}
-          </tr>
+            {taskNodes}   
         </table>
 
       );
@@ -118,22 +124,60 @@
 ////////////// TASK
 
   var TodosTask = React.createClass({
+    updateStatus: function(){
+      this.setState({value: event.target.value});
+      alert(value)
+
+      if($(this.props.checkbox).val()==0){
+        alert("is 0")
+        // alert($(this).attr('id'));
+      }
+      else{
+        var status = 0;
+      }
+    },
     render: function() {
       return (
-          <div>
-            <input type="checkbox" onChange="{this.handleDoneSubmit}">{this.props.task}</input>
+          <div className="task-style">
+              <input type="checkbox" className="checkbox" onChange='handleClick(this);' id={this.props.id} value={this.props.status}>{this.props.task}</input>
           </div>
+        
 
       );
     }   
   });
 
+  ///////////////
+
+  var TodosCounter = React.createClass({
+  render: function() {
+    return (
+      <div className="todos-counter">
+        <p className="counter"> 2 itens left </p>
+      </div>
+    );
+  }
+});
+
+
+////////////////////
+
+ var TodosMarkAll = React.createClass({
+  render: function() {
+    return (
+      <div className="todos-mark-all">
+        <p className="mark-text"> Mark All As Complete</p>
+      </div>
+    );
+  }
+});
+
  //////////////// REACT RENDERZ 
 
-	React.render(
-  	<TodosBox url="http://localhost:5000/todos/api" pollInterval={2000}/>,
-  	document.getElementById('content')
-	);
+  React.render(
+    <TodosBox url="http://localhost:5000/todos/api" pollInterval={200}/>,
+    document.getElementById('content')
+  );
 
 
 

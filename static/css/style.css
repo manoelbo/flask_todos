@@ -1,3 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+
 #container{
   width: 500px;
   height: 100%;
@@ -6,15 +9,27 @@
 
 .todosBox {
 	border: solid 1px #d3d3d4;
-	border-radius: 4px 4px 4px 4px;
-	min-height: 530px;
+	border-radius: 5px 5px 5px 5px;
+
+	height: auto;
+}
+
+.taskBox{
+	min-height: 300px;
+
+}
+
+.content-bottom{
+	width: 498px;
+	height: 50px;
+	border-top: dashed 1px #d3d3d4;
 }
 
 .todos-title {
 	color: black;
 	width: 500px;
 	text-align: center;
-	font-family: 'helvetica';
+	font-family: 'Open Sans';
 	font-size: 26px;
 	margin-top: 50px;
 	padding-bottom: 50px;
@@ -27,19 +42,85 @@
 	height: 40px;
 	margin-left: 20px;
 	margin-right: 10px;
+	border-radius: 5px;
+	box-shadow: 2px 0 0 0 #eeeeee inset;
+	font-family: 'Open Sans';
+	font-size: 12px;
+	padding: 0px;
 }
 
 .addpost{
 	height: 40px;
 	width: 145px;
-	padding-top: 40px;
+	border-radius: 5px;
+	border: 0.1em solid #c5c5c5 ;
+	margin-top: -2px;
+	font-size: 12px;
+	font-family: 'Open Sans';
+	font-style: bold;
+	box-shadow: 0px 1px 0 0 white inset;
+	background: background: #ebeae9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ebeae9 -1%, #ebeae9 50%, #ebeae9 50%, #d9d8d7 51%, #d9d8d7 98%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(-1%,#ebeae9), color-stop(50%,#ebeae9), color-stop(50%,#ebeae9), color-stop(51%,#d9d8d7), color-stop(98%,#d9d8d7)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ebeae9 -1%,#ebeae9 50%,#ebeae9 50%,#d9d8d7 51%,#d9d8d7 98%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ebeae9 -1%,#ebeae9 50%,#ebeae9 50%,#d9d8d7 51%,#d9d8d7 98%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ebeae9 -1%,#ebeae9 50%,#ebeae9 50%,#d9d8d7 51%,#d9d8d7 98%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ebeae9 -1%,#ebeae9 50%,#ebeae9 50%,#d9d8d7 51%,#d9d8d7 98%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebeae9', endColorstr='#d9d8d7',GradientType=0 ); /* IE6-9 */
+
+
 }
 
 tbody tr:nth-child(odd) {
    background-color: #ccc;
 }
 
-tr{
-	height: 500px;
-	width: 300px;
+
+
+.task-style{
+	height: 50px;
+	width: 498px;
+	margin-left: -2px;
+	font-family: 'Open Sans';
+	font-size: 14px;
+}
+
+.task-style:nth-of-type(odd) {
+    background: #f4f7fa;
+}
+
+.checkbox{
+	margin: 18px 10px 10px 10px;
+}
+
+.todos-counter{
+	width: 246px;
+	float: left;
+}
+
+.todos-counter p{
+	margin-left: 20px;
+	font-family: 'Open Sans';
+	font-size: 14px;
+	color: #999999;
+}
+
+.todos-mark-all{
+	width: 250px;
+	float: right;
+	
+
+
+}
+
+.todos-mark-all p{
+	margin-left: 90px;
+	font-family: 'Open Sans';
+	font-size: 14px;
+	color: #448CCB;
+
+
+
+	
+
 }
