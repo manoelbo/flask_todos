@@ -71,7 +71,7 @@
             <TodosList tasks={this.state.tasks}/>
           </div>
           <div className="content-bottom">
-            <TodosCounter/>
+            <TodosCounter tasks={this.state.tasks}/>
             <TodosMarkAll/>
           </div>
           
@@ -125,16 +125,7 @@
 
   var TodosTask = React.createClass({
     updateStatus: function(){
-      this.setState({value: event.target.value});
-      alert(value)
-
-      if($(this.props.checkbox).val()==0){
-        alert("is 0")
-        // alert($(this).attr('id'));
-      }
-      else{
-        var status = 0;
-      }
+      
     },
     render: function() {
       return (
@@ -151,9 +142,20 @@
 
   var TodosCounter = React.createClass({
   render: function() {
+      var counter = 0;
+      var taskNodes = this.props.tasks.map(function (tasksdata){
+        if(tasksdata.status == 0){
+          return counter = counter +1;
+        }
+        else{
+          console.log("nothing here")
+        }
+
+     });  
+
     return (
       <div className="todos-counter">
-        <p className="counter"> 2 itens left </p>
+        <p className="counter"> {counter} itens left </p>
       </div>
     );
   }
