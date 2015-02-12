@@ -68,11 +68,11 @@
           <h1 className="todos-title">Todos</h1>
           <div className="taskBox">
             <TodosForm onTaskSubmit= {this.handleTaskSubmit}/>
-            <TodosList tasks={this.state.tasks}/>
+            <TodosList tasks={this.state.tasks} onStatusSubmit ={this.handleTaskSubmit}/>
           </div>
           <div className="content-bottom">
             <TodosCounter tasks={this.state.tasks}/>
-            <TodosMarkAll/>
+            <TodosMarkAll tasks={this.state.tasks}/>
           </div>
           
         </div>
@@ -123,20 +123,71 @@
 
 ////////////// TASK
 
+
+
   var TodosTask = React.createClass({
-    updateStatus: function(){
-      
+    getInitialState: function() {
+      return {status: 0};
+    },
+
+
+    changeStatus: function(data) {
+      var id = this.refs.status.getDOMNode().value
+  
+      if(this.refs.status.getDOMNode().checked == true){
+          $.ajax({
+          url: "http://localhost:5000/todos/api/" + id + "",
+          dataType: 'json',
+          type: 'PUT',
+          data: JSON.stringify({status: true}),
+          contentType: "application/json",
+          accepts: "application/json",
+          success: function(status) {
+          this.setState({status: status});
+          }.bind(this),
+          error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
+
+      }
+      else{
+         $.ajax({
+          url: "http://localhost:5000/todos/api/" + id + "",
+          dataType: 'json',
+          type: 'PUT',
+          data: JSON.stringify({status: false}),
+          contentType: "application/json",
+          accepts: "application/json",
+          success: function(status) {
+          this.setState({status: status});
+          }.bind(this),
+          error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+          }.bind(this)
+        });
+      }
+        
     },
     render: function() {
+      var classString = 'task-style ';
+      if(this.props.status == true){
+        classString = classString + 'task-style-true';
+      }
+      else{
+        classString = classString + 'task-style-false';
+      }
       return (
-          <div className="task-style">
-              <input type="checkbox" className="checkbox" onChange='handleClick(this);' id={this.props.id} value={this.props.status}>{this.props.task}</input>
+          <div className={classString}>
+              <input type="checkbox" className="checkbox" ref="status" onChange={this.changeStatus} checked={this.props.status} value={this.props.id}>{this.props.task}</input>
           </div>
         
 
       );
     }   
   });
+
+
 
   ///////////////
 
@@ -155,7 +206,7 @@
 
     return (
       <div className="todos-counter">
-        <p className="counter"> {counter} itens left </p>
+        <p className="counter"> {counter} items left </p>
       </div>
     );
   }
@@ -164,11 +215,31 @@
 
 ////////////////////
 
+
  var TodosMarkAll = React.createClass({
+  markAll: function(){
+    this.props.tasks.map(function (tasksdata){
+      $.ajax({
+        url: "http://localhost:5000/todos/api/" + tasksdata.id + "",
+        dataType: 'json',
+        type: 'PUT',
+        data: JSON.stringify({status: true}),
+        contentType: "application/json",
+        accepts: "application/json",
+        success: function(status) {
+        this.setState({status: status});
+        }.bind(this),
+        error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    });
+  },
+
   render: function() {
     return (
       <div className="todos-mark-all">
-        <p className="mark-text"> Mark All As Complete</p>
+        <p className="mark-text" onClick={this.markAll}> Mark All As Complete</p>
       </div>
     );
   }
