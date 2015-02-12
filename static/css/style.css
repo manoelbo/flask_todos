@@ -75,8 +75,6 @@ tbody tr:nth-child(odd) {
    background-color: #ccc;
 }
 
-
-
 .task-style{
 	height: 50px;
 	width: 498px;
@@ -85,12 +83,32 @@ tbody tr:nth-child(odd) {
 	font-size: 14px;
 }
 
+
+.task-style-false{
+	height: 50px;
+	width: 498px;
+	margin-left: -2px;
+	font-family: 'Open Sans';
+	font-size: 14px;
+
+}
+
+.task-style-true{
+	color: #c3c3c3;
+	text-decoration: line-through;
+}
+
 .task-style:nth-of-type(odd) {
     background: #f4f7fa;
 }
 
 .checkbox{
 	margin: 18px 10px 10px 10px;
+}
+
+
+.checkbox-true input[type=text]{
+	color: #DCDCDC;
 }
 
 .todos-counter{
@@ -118,9 +136,4 @@ tbody tr:nth-child(odd) {
 	font-family: 'Open Sans';
 	font-size: 14px;
 	color: #448CCB;
-
-
-
-	
-
 }
